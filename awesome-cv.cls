@@ -424,16 +424,16 @@
 %% Define helper macros a user can change easily
 % Header
 \newcommand{\acvHeaderNameDelim}{\space}
-\newcommand{\acvHeaderAfterNameSkip}{.4mm}
-\newcommand{\acvHeaderAfterPositionSkip}{.4mm}
-\newcommand{\acvHeaderAfterAddressSkip}{-.5mm}
+\newcommand{\acvHeaderAfterNameSkip}{1mm}
+\newcommand{\acvHeaderAfterPositionSkip}{0mm}
+\newcommand{\acvHeaderAfterAddressSkip}{1mm}
 \newcommand{\acvHeaderIconSep}{\space}
 \newcommand{\acvHeaderSocialSep}{\quad\textbar\quad}
 \newcommand{\acvHeaderAfterSocialSkip}{6mm}
 \newcommand{\acvHeaderAfterQuoteSkip}{5mm}
 
 % Others
-\newcommand{\acvSectionTopSkip}{-1mm}
+\newcommand{\acvSectionTopSkip}{-2mm}
 \newcommand{\acvSectionContentTopSkip}{1mm}
 
 
@@ -552,7 +552,7 @@
         {}%
         {%
           \ifbool{isstart}{\setbool{isstart}{false}}{\acvHeaderSocialSep}%
-          \href{https://orcid.org/\@orcid}{\faOrcid\acvHeaderIconSep\@orcid}%
+          \href{https://\@orcid}{\faOrcid\acvHeaderIconSep\@orcid}%
         }%
       \ifthenelse{\isundefined{\@twitter}}%
         {}%
@@ -594,7 +594,7 @@
         {}%
         {%
           \ifbool{isstart}{\setbool{isstart}{false}}{\acvHeaderSocialSep}%
-          \@extrainfo%
+          \href{https://\@extrainfo}{\@extrainfo}%
         }%
     } \\[\acvHeaderAfterSocialSkip]%
     \ifthenelse{\isundefined{\@quote}}%
@@ -621,7 +621,7 @@
   \vspace{\acvSectionTopSkip}
   \sectionstyle{#1}
   \phantomsection
-  \color{gray}\vhrulefill{0.9pt}
+  \color{sectiondivider}\vhrulefill{0.9pt}
 }
 
 % Define a subsection for CV
@@ -663,6 +663,7 @@
       \entrypositionstyle{#1} & \entrydatestyle{#4} \\}
     \multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}}
   \end{tabular*}%
+  \vspace{1mm}
 }
 
 % Define an environment for cvsubentry
@@ -727,7 +728,7 @@
 
 % Define an environment for cvitems(for cventry)
 \newenvironment{cvitems}{%
-  \vspace{-4.0mm}
+  \vspace{-5.0mm}
   \begin{justify}
   \begin{itemize}[leftmargin=2ex, nosep, noitemsep]
     \setlength{\parskip}{0pt}
@@ -735,7 +736,7 @@
 }{%
   \end{itemize}
   \end{justify}
-  \vspace{-4.0mm}
+  \vspace{-5.0mm}
 }
 
 
@@ -788,4 +789,159 @@
       \\\\\\
       \letterenclosurestyle{\@letterenclname: \@letterenclosure} \\
     }
+}
+
+%-------------------------------------------------------------------------------
+%                Bibliography
+%-------------------------------------------------------------------------------
+%\RequirePackage[style=verbose, maxnames=99, sorting=ydnt]{biblatex}
+\RequirePackage[ % BibLaTeX
+	sorting=ydnt, % Sorts entries by year (descending order), name, title
+	doi=false,
+	isbn=true,
+	url=false,
+	eprint=false,
+	backref = false, % include back references in bibliography
+	maxcitenames=3, % affects only the citations in the document body
+	maxbibnames=99, % affects only the bibliography, pass 99 to print all
+    % maxnames = 3,
+	hyperref=true,
+% 	 block=none,
+	giveninits=true,
+	style=authoryear,
+	backend=biber % {Options: bibtex, biber}
+	]{biblatex}
+
+% Avoid splitting entries across page break (only for 3 or fewer lines)
+% Tip: http://tex.stackexchange.com/a/51261
+\AtBeginEnvironment{thebibliography}{%
+   \clubpenalty10000
+   \@clubpenalty \clubpenalty
+   \widowpenalty10000
+   \interlinepenalty5000}
+
+% Customized format, based on Fancy CV template created by Adrien Friggeri
+\DeclareFieldFormat[article]{title}{#1\par}
+\DeclareFieldFormat[unpublished]{title}{#1}
+\DeclareFieldFormat[inproceedings]{title}{#1\par}
+\DeclareFieldFormat[misc]{title}{#1\par}
+\DeclareFieldFormat[report]{title}{#1\par}
+\DeclareFieldFormat[incollection]{title}{#1\par}
+\DeclareNameAlias{sortname}{given-family}
+
+\DeclareBibliographyDriver{article}{%
+  \entrytitlestyle{\printfield{title}}%
+  \newblock%
+  \entrypositionstyle{\printnames{author}}%
+  \par%
+  \newblock%
+  \descriptionstyle{%
+    \usebibmacro{journal+issuetitle}%
+    \setunit{\space}%
+    \printfield{pages}%
+    \newunit%
+    \printlist{publisher}%
+    \setunit*{\addcomma\space}%
+    \printfield{year}%
+    \newunit%
+  }
+  \par\vspace{0.3\baselineskip}
+}
+
+\DeclareBibliographyDriver{inproceedings}{%
+  \entrytitlestyle{\printfield{title}}%
+  \newblock%
+  \entrypositionstyle{\printnames{author}}%
+  \par%
+  \newblock%
+  \descriptionstyle{%
+    \fontsize{8pt}{1em}\bodyfontlight\color{graytext}%
+    \printfield{booktitle}%
+    \setunit{\addcomma\space}%
+    \printfield{year}%
+    \setunit{\addcomma\space}%
+    \printlist{location}%
+    \newunit%
+  }
+  \par\vspace{0.3\baselineskip}
+}
+
+\DeclareBibliographyDriver{incollection}{%
+  \entrytitlestyle{\printfield{title}}%
+  \newblock%
+  \entrypositionstyle{\printnames{author}}%
+  \par%
+  \newblock%
+  \descriptionstyle{%
+    \fontsize{8pt}{1em}\bodyfontlight\color{graytext}%
+    \printfield{booktitle}%
+    \setunit{\addcomma\space}%
+    \printfield{year}%
+    \setunit{\addcomma\space}%
+    \printlist{location}%
+    \newunit%
+  }
+  \par\vspace{0.3\baselineskip}
+}
+
+\DeclareBibliographyDriver{misc}{%
+  \entrytitlestyle{\printfield{title}}%
+  \newblock%
+  \entrypositionstyle{\printnames{author}}%
+  \par%
+  \newblock%
+  \descriptionstyle{%
+    \fontsize{8pt}{1em}\bodyfontlight\color{graytext}%
+    \printfield{booktitle}%
+    \setunit*{\addcomma\space}%
+    \printfield{note}%
+    \setunit*{\addcomma\space}%
+    \printfield{year}%
+    \setunit{\addcomma\space}%
+    \printlist{location}%
+    \newunit%
+  }
+  \par\vspace{0.3\baselineskip}
+}
+
+\DeclareBibliographyDriver{report}{%
+  \entrytitlestyle{\printfield{title}}%
+  \newblock%
+  \entrypositionstyle{\printnames{author}}%
+  \par%
+  \newblock%
+  \descriptionstyle{%
+    \fontsize{8pt}{1em}\bodyfontlight\color{graytext}%
+    \printfield{type}%
+    \setunit{\space}%
+    \printfield{number}%
+    \setunit{\addcomma\space}%
+    \printfield{year}%
+    \newunit%
+  }
+  \par\vspace{0.3\baselineskip}
+}
+
+\DeclareBibliographyDriver{unpublished}{%
+  \entrytitlestyle{\printfield{title}}%
+  \space
+  \entrytitlestyle{(\printfield{note})}
+  \par%
+  \newblock%
+  \entrypositionstyle{\printnames{author}}%
+  \addperiod\space
+  \newblock%
+  \descriptionstyle{%
+    \usebibmacro{journal}%
+    \setunit{\space}%
+    \newunit%
+    \addcomma\space
+    \printlist{publisher}%
+    \setunit*{\addcomma\space}%
+    \newunit%
+    \addcomma\space
+    \printfield{month}
+    \printfield{year}%
+  }
+  \par\vspace{.5\baselineskip}
 }
