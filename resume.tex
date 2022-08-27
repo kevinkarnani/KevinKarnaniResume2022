@@ -21,7 +21,7 @@
 \documentclass[12pt, letter]{awesome-cv}
 
 % Configure page margins with geometry
-\geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.8cm, footskip=.5cm}
+\geometry{left=1.5cm, top=1.5cm, right=1.5cm, bottom=1.5cm, footskip=0cm}
 
 % Specify the location of the included fonts
 \fontdir[fonts/]
@@ -54,13 +54,13 @@
 % Available options: circle|rectangle,edge/noedge,left/right
 % \photo[rectangle,edge,right]{./examples/profile}
 \name{Kevin}{Karnani}
-\position{Machine Learning Researcher Aspirant}
+\position{Machine Learning Researcher}
 
-\mobile{(267) 408-2292}
+% \mobile{(267) 408-2292}
 \email{kevinkarnani@gmail.com}
 \github{github.com/kevinkarnani}
-\linkedin{linkedin.com/in/kevin-karnani}
-\orcid{0000-0002-3108-7941}
+% \linkedin{linkedin.com/in/kevin-karnani}
+% \orcid{orcid.org/0000-0002-3108-7941}
 % \gitlab{gitlab-id}
 % \stackoverflow{SO-id}{SO-name}
 % \twitter{@twit}
@@ -70,9 +70,14 @@
 % \googlescholar{googlescholar-id}{name-to-display}
 % %% \firstname and \lastname will be used
 % \googlescholar{googlescholar-id}{}
-% \extrainfo{extra informations}
+\extrainfo{kevinkarnani.github.io}
 
 %\quote{``Be the change that you want to see in the world."}
+
+%-------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%-------------------------------------------------------------------------------
+\addbibresource{resume/references.bib}
 
 
 %-------------------------------------------------------------------------------
@@ -81,6 +86,7 @@
 % Print the header with above personal informations
 % Give optional argument to change alignment(C: center, L: left, R: right)
 \makecvheader[C]
+% \vspace{1mm}
 
 % Print the footer with 3 arguments(<left>, <center>, <right>)
 % Leave any of these blank if they are not needed
@@ -90,11 +96,14 @@
   {\thepage}
 
 
+
 %-------------------------------------------------------------------------------
 %	CV/RESUME CONTENT
 %	Each section is imported separately, open each file in turn to modify content
 %-------------------------------------------------------------------------------
 \input{resume/education.tex}
+% For publications from bibtex, add to cv/references.bib and uncomment below
+\input{resume/publications.tex}
 \input{resume/experience.tex}
 \input{resume/projects.tex}
 \input{resume/skills.tex}
